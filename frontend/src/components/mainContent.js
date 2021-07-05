@@ -1,6 +1,7 @@
 import React from 'react'
 import product_card from '../data/product_data'
-import '../product.css';
+import '../eshop.css';
+import Tabs from './tabs';
 
 const MainContent = () => {
     console.log(product_card);
@@ -22,7 +23,7 @@ const MainContent = () => {
     );
     return(
         <div className="main_content">
-            <h3>Supplements</h3>
+          <h3><Tabs/></h3>  
             {listItems}
         </div>
     )
