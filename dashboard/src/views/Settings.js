@@ -1,118 +1,86 @@
 import React from "react";
+
+// react-bootstrap components
 import {
+  Badge,
+  Button,
   Card,
+  Form,
+  Navbar,
+  Nav,
   Container,
   Row,
   Col,
 } from "react-bootstrap";
 
-function Settings() {
+function User() {
   return (
     <>
       <Container fluid>
         <Row>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
+          <Col md="12">
+            <Card>
+              <Card.Header>
+                <Card.Title as="h4">Store Settings</Card.Title>
+              </Card.Header>
               <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-chart text-warning"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Number</p>
-                      <Card.Title as="h4">150GB</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
+                <Form>
+                  <Row>
+                    <Col className="pr-1" md="6">
+                      <Form.Group>
+                        <label>Business Email</label>
+                        <Form.Control
+                          defaultValue="hello@fitnesslife.com"
+                          placeholder="Business Email"
+                          type="email"
+                        ></Form.Control>
+                      </Form.Group>
+                    </Col>
+                    <Col className="px-1" md="6">
+                      <Form.Group>
+                        <label>Telephone Number</label>
+                        <Form.Control
+                          defaultValue="0111233451"
+                          placeholder="Telephone"
+                          type="text"
+                        ></Form.Control>
+                      </Form.Group>
+                    </Col>
+                    </Row>
+                    <Row>
+                    <Col className="pl-1" md="12">
+                     <Form.Group>
+                        <label>Store Address</label>
+                        <Form.Control
+                          defaultValue="440 R. A. De Mel Mawatha, Colombo 00300"
+                          placeholder="Address"
+                          type="text"
+                        ></Form.Control>
+                      </Form.Group>
+                    </Col>
+                  </Row>                  
+                  <Button
+                    className="btn-fill pull-right"
+                    type="submit"
+                    variant="primary"
+                  >
+                    Save Changes
+                  </Button>
+                  <div className="clearfix"></div>
+                </Form>
               </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  <i className="fas fa-redo mr-1"></i>
-                  Update Now
-                </div>
-              </Card.Footer>
             </Card>
           </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
+        </Row>
+        <Row>
+          <Col md="12">
+            <Card>
+              <Card.Header>
+                <Card.Title as="h4">Dashboard Settings</Card.Title>
+              </Card.Header>
               <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-light-3 text-success"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Revenue</p>
-                      <Card.Title as="h4">$ 1,345</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
+                
               </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  <i className="far fa-calendar-alt mr-1"></i>
-                  Last day
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
-              <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-vector text-danger"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Errors</p>
-                      <Card.Title as="h4">23</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  <i className="far fa-clock-o mr-1"></i>
-                  In the last hour
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
-              <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-favourite-28 text-primary"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Followers</p>
-                      <Card.Title as="h4">+45K</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  <i className="fas fa-redo mr-1"></i>
-                  Update now
-                </div>
-              </Card.Footer>
             </Card>
           </Col>
         </Row>
@@ -121,4 +89,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default User;
