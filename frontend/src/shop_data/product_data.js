@@ -57,32 +57,9 @@ const product_card = [
     currency: "LKR",
     thumb: "./images/supliment.jpg"
 },
+
 {
     id :8,
-    product_name: "Molt Suppliment",
-    description: "Burn your extra cholestorol",
-    price: 3450,
-    currency: "LKR",
-    thumb: "./images/supliment.jpg"
-},
-{
-    id :9,
-    product_name: "Molt Suppliment",
-    description: "Burn your extra cholestorol",
-    price: 3450,
-    currency: "LKR",
-    thumb: "./images/supliment.jpg"
-},
-{
-    id :10,
-    product_name: "Molt Suppliment",
-    description: "Burn your extra cholestorol",
-    price: 3450,
-    currency: "LKR",
-    thumb: "./images/supliment.jpg"
-},
-{
-    id :11,
     product_name: "Molt Suppliment",
     description: "Burn your extra cholestorol",
     price: 3450,
