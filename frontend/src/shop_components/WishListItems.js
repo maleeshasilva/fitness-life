@@ -4,21 +4,21 @@ const WishListItems = ({ id, description, title, img, price, quantity }) => {
   return (
     <>
 
-          <div className="items-info">
-            <div className="remove-item">
+          <div className="wl-items-info">
+            <div className="wl-remove-item">
                 <i class="fas fa-times"></i>
             </div>
-            <div className="product-img">
+            <div className="wl-img">
               <img src={img} alt="img" />
             </div>
-            <div className="title">
+            <div className="wl-title">
               <h2>{ title}</h2>
               <p>{ description}</p>
             </div>
-            <div className="price">
+            <div className="wl-price">
                 <h3>{ price}</h3>
             </div>
-            <div className="add-cart">
+            <div className="wl-add-cart">
                 <i class="fas fa-shopping-cart"></i>
             </div>
           </div>
