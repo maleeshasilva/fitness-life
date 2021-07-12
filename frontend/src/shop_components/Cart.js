@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './cart.css';
+import '../App.css';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import Items from './Items';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,6 +15,7 @@ const  Cart = () => {
   return(
 
         <>
+        <div className="cart-nav">
             <Navbar>
                 <Navbar.Brand href="./mainContent" className="continue-shopping">
                         <img src="./images/icons/arrow2.png" alt="arrow" className="arrow-icon"/>
@@ -28,11 +29,14 @@ const  Cart = () => {
                 </Nav>
             </Navbar>
 
+        </div>
+            
+
             <section className="main-cart-section">
                 <h1>shopping Cart</h1>
-                <p className="total-items">You have <span className="total-items-count"> 7 </span> items in shopping cart</p>
-                <div className="cart-items">
-                    <div className="cart-items-container">
+                <p className="cp-total-items">You have <span className="cp-total-items-count"> 7 </span> items in shopping cart</p>
+                <div className="cp-cart-items">
+                    <div className="cp-cart-items-container">
                         <Scrollbars>
                         {
                             item.map((curItem) =>{
@@ -44,7 +48,7 @@ const  Cart = () => {
                     </div>
                 </div>
 
-                <div className="card-total">
+                <div className="cp-card-total">
                     <h3>Cart Total : <span>Rs 22300 </span></h3>
                     <button>Checkout</button>
                 </div>
