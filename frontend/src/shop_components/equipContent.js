@@ -3,27 +3,29 @@ import product_card from '../shop_data/gym_equipments'
 import './eshop.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {  Card  , Button} from "react-bootstrap";
+import '../App.css'
 
 
-const EquipContent = () => {
+const MainContent = () => {
     console.log(product_card);
     const listItems = product_card.map((item) =>
-
     <>
+
+ 
         <Card className="item-card" key = {item.id}>
             <Card.Img variant="top" src={item.thumb} />
-            <Card.Body>
-                <Card.Title>{item.product_name}</Card.Title>
-                <Card.Text>
-                    <p className="item-info">{item.description}</p>
+            <Card.Body className="item-body">
+            <Card.Title className="item-title">{item.product_name}</Card.Title>
+                <Card.Text className="item-text">
+                    {/* <p className="item-info">{item.description}</p> */}
                 </Card.Text>
-                <p className= "price">{item.price}<span>{item.currency}</span></p>
-                <div className="view-btn">View Item</div>
-            </Card.Body>
-                
+                <p className= "item-price">{item.price}<span className="item-span">{item.currency}</span></p>
+                <div className="item-view-btn">View Item</div>
+            </Card.Body>       
         </Card>
+      
+            
     </>
-        
     
     );
     return(
@@ -35,4 +37,4 @@ const EquipContent = () => {
 
 }
 
-export default EquipContent;
+export default MainContent;
