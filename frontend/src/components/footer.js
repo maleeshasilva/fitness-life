@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function Footer(){
-    return(
-        <div className= "footer">
-            <p>copyright @2021 </p>
-            <div className= "social">
-                <i className= "fa fa-facebook"></i>
-                <i className= "fa fa-instagram"></i>
-            </div>
+
+const Footer = () => {
+    return (
+        <div className="footer-wrapper">                        
+                
         </div>
     )
 }
+
+export default Footer;
