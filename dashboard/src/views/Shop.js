@@ -9,7 +9,43 @@ import {
   Button,
 } from "react-bootstrap";
 
+import { useState } from "react";
+import { useEffect } from "react";
+import Axios from "axios";
+
 function Shop() {
+
+  const [pOrderList, setPOrderList] = useState([]);
+  const [dOrderList, setDOrderList] = useState([]);
+  const [cOrderList, setCOrderList] = useState([]);
+
+  const getPOrders = () => {
+    Axios.get("http://localhost:3001/orders/pending").then((response) => {
+      setPOrderList(response.data);
+      console.log(response.data);
+    });
+  };
+
+  const getDOrders = () => {
+    Axios.get("http://localhost:3001/orders/delivery").then((response) => {
+      setDOrderList(response.data);
+      console.log(response.data);
+    });
+  };
+
+  const getCOrders = () => {
+    Axios.get("http://localhost:3001/orders/complete").then((response) => {
+      setCOrderList(response.data);
+      console.log(response.data);
+    });
+  };
+
+  useEffect(() => {
+    getPOrders();
+    getDOrders();
+    getCOrders();
+  }, []);
+
   return (
     <>
       <Container fluid>
@@ -120,6 +156,7 @@ function Shop() {
           </Col>
         </Row>
         <Row>
+
           <Col md="12">
             <Card className="card-plain table-plain-bg">
               <Card.Header>
@@ -137,48 +174,17 @@ function Shop() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1561</td>
-                      <td>Dumbell</td>
-                      <td>500.00</td>
-                      <td>4</td>
-                      <td>2000.00</td>
-                    </tr>
-                    <tr>
-                      <td>1562</td>
-                      <td>Speed Jump Rope</td>
-                      <td>690.00</td>
-                      <td>1</td>
-                      <td>690.00</td>
-                    </tr>
-                    <tr>
-                      <td>1563</td>
-                      <td>55cm Gym Ball</td>
-                      <td>1950.00</td>
-                      <td>2</td>
-                      <td>3900.00</td>
-                    </tr>
-                    <tr>
-                      <td>1564</td>
-                      <td>Yoga Mat</td>
-                      <td>2200.00</td>
-                      <td>1</td>
-                      <td>2200.00</td>
-                    </tr>
-                    <tr>
-                      <td>1565</td>
-                      <td>Digital Weight Scale</td>
-                      <td>3900.00</td>
-                      <td>1</td>
-                      <td>3900.00</td>
-                    </tr>
-                    <tr>
-                      <td>1566</td>
-                      <td>Kettle Bell</td>
-                      <td>2700.00</td>
-                      <td>2</td>
-                      <td>5400.00</td>
-                    </tr>
+                    {pOrderList.map((val, key) => {
+                      return (
+                        <tr>
+                          <td>{val.orderID}</td>
+                          <td>{val.productName}</td>
+                          <td>{val.price}</td>
+                          <td>{val.quantity}</td>
+                          <td>{val.price * val.quantity}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
               </Card.Body>
@@ -203,48 +209,17 @@ function Shop() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1561</td>
-                      <td>Dumbell</td>
-                      <td>500.00</td>
-                      <td>4</td>
-                      <td>2000.00</td>
-                    </tr>
-                    <tr>
-                      <td>1562</td>
-                      <td>Speed Jump Rope</td>
-                      <td>690.00</td>
-                      <td>1</td>
-                      <td>690.00</td>
-                    </tr>
-                    <tr>
-                      <td>1563</td>
-                      <td>55cm Gym Ball</td>
-                      <td>1950.00</td>
-                      <td>2</td>
-                      <td>3900.00</td>
-                    </tr>
-                    <tr>
-                      <td>1564</td>
-                      <td>Yoga Mat</td>
-                      <td>2200.00</td>
-                      <td>1</td>
-                      <td>2200.00</td>
-                    </tr>
-                    <tr>
-                      <td>1565</td>
-                      <td>Digital Weight Scale</td>
-                      <td>3900.00</td>
-                      <td>1</td>
-                      <td>3900.00</td>
-                    </tr>
-                    <tr>
-                      <td>1566</td>
-                      <td>Kettle Bell</td>
-                      <td>2700.00</td>
-                      <td>2</td>
-                      <td>5400.00</td>
-                    </tr>
+                  {dOrderList.map((val, key) => {
+                      return (
+                        <tr>
+                          <td>{val.orderID}</td>
+                          <td>{val.productName}</td>
+                          <td>{val.price}</td>
+                          <td>{val.quantity}</td>
+                          <td>{val.price * val.quantity}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
                 <Button>View More</Button>
@@ -270,48 +245,17 @@ function Shop() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1561</td>
-                      <td>Dumbell</td>
-                      <td>500.00</td>
-                      <td>4</td>
-                      <td>2000.00</td>
-                    </tr>
-                    <tr>
-                      <td>1562</td>
-                      <td>Speed Jump Rope</td>
-                      <td>690.00</td>
-                      <td>1</td>
-                      <td>690.00</td>
-                    </tr>
-                    <tr>
-                      <td>1563</td>
-                      <td>55cm Gym Ball</td>
-                      <td>1950.00</td>
-                      <td>2</td>
-                      <td>3900.00</td>
-                    </tr>
-                    <tr>
-                      <td>1564</td>
-                      <td>Yoga Mat</td>
-                      <td>2200.00</td>
-                      <td>1</td>
-                      <td>2200.00</td>
-                    </tr>
-                    <tr>
-                      <td>1565</td>
-                      <td>Digital Weight Scale</td>
-                      <td>3900.00</td>
-                      <td>1</td>
-                      <td>3900.00</td>
-                    </tr>
-                    <tr>
-                      <td>1566</td>
-                      <td>Kettle Bell</td>
-                      <td>2700.00</td>
-                      <td>2</td>
-                      <td>5400.00</td>
-                    </tr>
+                    {cOrderList.map((val, key) => {
+                      return (
+                        <tr>
+                          <td>{val.orderID}</td>
+                          <td>{val.productName}</td>
+                          <td>{val.price}</td>
+                          <td>{val.quantity}</td>
+                          <td>{val.price * val.quantity}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
                 <Button>View More</Button>

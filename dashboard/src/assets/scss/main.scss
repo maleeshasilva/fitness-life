@@ -86,6 +86,10 @@ input[type=checkbox]{
     stroke: $secondary-color;
 }
 
+.ct-label{
+    fill: #fff;
+}
+
 // Tables
 
 .table-striped tbody tr:nth-of-type(odd){

@@ -1,26 +1,56 @@
 import React from "react";
 import ChartistGraph from "react-chartist";
 import {
+  Badge,
+  Button,
   Card,
+  Navbar,
+  Nav,
+  Table,
   Container,
   Row,
   Col,
+  Form,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 
 import { useState } from "react";
 import { useEffect } from "react";
 import Axios from "axios";
 import thousands from "../utils/thousands";
+import memberPercentage from "utils/stats";
 
-function Members() {
+function Dashboard() {
 
+  const [newOrderList, setNewOrderList] = useState([]);
+  const [revenue, setRevenue] = useState([]);
+  const [newMembers, setNewMembers] = useState([]);
+  const [totalMembers, setTotalMembers] = useState([]);
   const [onlineTotalMembers, setOnlineTotalMembers] = useState([]);
   const [physicalTotalMembers, setPhysicalTotalMembers] = useState([]);
-  const [physicalNewMembers, setPhysicalNewMembers] = useState([]);
 
-  const getPhysicalNewMembers = () => {
-    Axios.get("http://localhost:3001/members/physical/new").then((response) => {
-      setPhysicalNewMembers(response.data);
+  const getNewOrders = () => {
+    Axios.get("http://localhost:3001/orders/new").then((response) => {
+      setNewOrderList(response.data);
+    });
+  };
+
+  const getRevenue = () => {
+    Axios.get("http://localhost:3001/orders/revenue").then((response) => {
+      setRevenue(response.data);
+    });
+  };
+
+  const getNewMembers = () => {
+    Axios.get("http://localhost:3001/members/new").then((response) => {
+      setNewMembers(response.data);
+    });
+  };
+
+  const getTotalMembers = () => {
+    Axios.get("http://localhost:3001/members/total").then((response) => {
+      setTotalMembers(response.data);
     });
   };
 
@@ -36,12 +66,43 @@ function Members() {
     });
   };
 
+  const getChart = () => {
+    Axios.get("http://localhost:3001/members/chart").then((response) => {
+      setChart(response.data);
+    });
+  };
+
+
   useEffect(() => {
-    getPhysicalNewMembers();
+    getNewOrders();
+    getRevenue();
+    getNewMembers();
+    getTotalMembers();
     getOnlineTotalMembers();
     getPhysicalTotalMembers();
+    getChart();
   }, []);
 
+  function findTotalRevenue(){
+
+    let r = 0;
+    revenue.map(({price, quantity}) => r = r + price*quantity)
+    return r;
+  }  
+
+  const totalRevenue = thousands(findTotalRevenue());
+
+  onlineTotalMembers.map((val, key) => {
+    return val.count;
+  })
+
+  physicalTotalMembers.map((val, key) => {
+    return val.count;
+  })
+
+  console.log(onlineTotalMembers[0]);
+
+  //const percentage = memberPercentage(gg, kk);
 
   return (
     <>
@@ -53,14 +114,72 @@ function Members() {
                 <Row>
                   <Col xs="5">
                     <div className="icon-big text-center icon-warning">
+                      <i className="fas fa-store"></i>
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      <p className="card-category">New Orders</p>
+
+                      {newOrderList.map((val, key) => {
+                        return (
+                          <Card.Title as="h4">{val.count}</Card.Title>
+                        );
+                        })}
+
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+              <Card.Footer>
+                <hr></hr>
+                <div className="stats">
+                <i className="far fa-calendar-alt mr-1"></i>
+                  Today
+                </div>
+              </Card.Footer>
+            </Card>
+          </Col>
+          <Col lg="3" sm="6">
+            <Card className="card-stats">
+              <Card.Body>
+                <Row>
+                  <Col xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="fas fa-hand-holding-usd"></i>
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Revenue</p>
+                      <Card.Title as="h4">Rs. {totalRevenue}</Card.Title>
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+              <Card.Footer>
+                <hr></hr>
+                <div className="stats">
+                  <i className="far fa-calendar-alt mr-1"></i>
+                  Last 30 days
+                </div>
+              </Card.Footer>
+            </Card>
+          </Col>
+          <Col lg="3" sm="6">
+            <Card className="card-stats">
+              <Card.Body>
+                <Row>
+                  <Col xs="5">
+                    <div className="icon-big text-center icon-warning">
                     <i className="fas fa-user-plus"></i>
                     </div>
                   </Col>
                   <Col xs="7">
                     <div className="numbers">
-                      <p className="card-category">New Gym Members</p>
-                      
-                      {physicalNewMembers.map((val, key) => {
+                      <p className="card-category">New Members</p>
+
+                      {newMembers.map((val, key) => {
                         return (
                           <Card.Title as="h4">{val.count}</Card.Title>
                         );
@@ -90,9 +209,9 @@ function Members() {
                   </Col>
                   <Col xs="7">
                     <div className="numbers">
-                      <p className="card-category">Total Gym Members</p>
+                      <p className="card-category">Total Members</p>
                       
-                      {physicalTotalMembers.map((val, key) => {
+                      {totalMembers.map((val, key) => {
                         return (
                           <Card.Title as="h4">{val.count}</Card.Title>
                         );
@@ -111,60 +230,108 @@ function Members() {
               </Card.Footer>
             </Card>
           </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
+        </Row>
+        <Row>
+          <Col md="8">
+            <Card>
+              <Card.Header>
+                <Card.Title as="h4">Total Revenue</Card.Title>
+                <p className="card-category">Past 7 Days</p>
+              </Card.Header>
               <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="fas fa-calendar-check"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Attendance Today</p>
-                      <Card.Title as="h4">53</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
+                <div className="ct-chart" id="chartHours">
+                  <ChartistGraph
+                    data={{
+                      labels: [
+                        "21",
+                        "22",
+                        "23",
+                        "24",
+                        "25",
+                        "26",
+                        "27",
+                      ],
+                      series: [
+                        [5000, 10000, 7500, 15000, 20000, 18000, 8000, 25000],
+                        [11000, 8000, 5000, 8900, 12000, 10000, 25000, 16000],
+                      ],
+                    }}
+                    type="Line"
+                    options={{
+                      low: 0,
+                      high: 30000,
+                      showArea: false,
+                      height: "245px",
+                      axisX: {
+                        showGrid: false,
+                      },
+                      lineSmooth: false,
+                      showLine: true,
+                      showPoint: true,
+                      fullWidth: true,
+                      chartPadding: {
+                        right: 50,
+                      },
+                    }}
+                    responsiveOptions={[
+                      [
+                        "screen and (max-width: 640px)",
+                        {
+                          axisX: {
+                            labelInterpolationFnc: function (value) {
+                              return value[0];
+                            },
+                          },
+                        },
+                      ],
+                    ]}
+                  />
+                </div>
               </Card.Body>
               <Card.Footer>
+                <div className="legend">
+                  <i className="fas fa-circle text-primary"></i>
+                  Fitness Center <i className="fas fa-circle text-secondary"></i>
+                  Online Store
+                </div>
                 <hr></hr>
                 <div className="stats">
-                  <i className="far fa-clock-o mr-1"></i>
-                  Today
+                  <i className="fas fa-history"></i>
+                  Updated 5 minutes ago
                 </div>
               </Card.Footer>
             </Card>
           </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
+          <Col md="4">
+            <Card>
+              <Card.Header>
+                <Card.Title as="h4">Member Statistics</Card.Title>
+                <p className="card-category">All Members</p>
+              </Card.Header>
               <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="fas fa-user-astronaut"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Total Online Members</p>
-                      
-                      {onlineTotalMembers.map((val, key) => {
-                        return (
-                          <Card.Title as="h4">{val.count}</Card.Title>
-                        );
-                        })}
-
-                    </div>
-                  </Col>
-                </Row>
+                <div
+                  className="ct-chart ct-perfect-fourth"
+                  id="chartPreferences"
+                >
+                  <ChartistGraph
+                    data={{
+                      labels: ['50', '50'],
+                      series: [50, 50],
+                    }}
+                    type="Pie"
+                  />
+                </div>
               </Card.Body>
               <Card.Footer>
+                <div className="legend">
+                  <i className="fas fa-circle text-primary"></i>
+                  Online Members <i className="fas fa-circle text-secondary"></i>
+                  Gym Members
+                </div>
                 <hr></hr>
                 <div className="stats">
-                  <i className="fas fa-redo mr-1"></i>
-                  Update now
+                  <i className="far fa-clock"></i>
+                  Updated 1 hour ago
                 </div>
               </Card.Footer>
             </Card>
@@ -174,11 +341,11 @@ function Members() {
           <Col md="6">
             <Card>
               <Card.Header>
-                <Card.Title as="h4">New Gym Members</Card.Title>
+                <Card.Title as="h4">Online Sales</Card.Title>
                 <p className="card-category">Last 14 Days</p>
               </Card.Header>
               <Card.Body>
-                <div className="ct-chart" id="chartNewGym">
+                <div className="ct-chart" id="chartActivity">
                   <ChartistGraph
                     data={{
                       labels: [
@@ -199,201 +366,30 @@ function Members() {
                       ],
                       series: [
                         [
+                          ,
                           2,
-                          4,
-                          3,
                           5,
-                          6,
+                          7,
+                          4,
                           9,
-                          4,
-                          1,
-                          2,
-                          2,
-                          4,
-                          3,
-                          2,
-                          5,
-                        ],
-                      ],
-                    }}
-                    type="Bar"
-                    options={{
-                      seriesBarDistance: 10,
-                      axisX: {
-                        showGrid: false,
-                      },
-                      height: "245px",
-                    }}
-                    responsiveOptions={[
-                      [
-                        "screen and (max-width: 640px)",
-                        {
-                          seriesBarDistance: 5,
-                          axisX: {
-                            labelInterpolationFnc: function (value) {
-                              return value[0];
-                            },
-                          },
-                        },
-                      ],
-                    ]}
-                  />
-                </div>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  More info
-                  <i class="far fa-arrow-alt-circle-right"></i>
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col md="6">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">New Online Members</Card.Title>
-                <p className="card-category">Last 14 Days</p>
-              </Card.Header>
-              <Card.Body>
-                <div className="ct-chart" id="chartNewOnline">
-                  <ChartistGraph
-                    data={{
-                      labels: [
-                        "14",
-                        "15",
-                        "16",
-                        "17",
-                        "18",
-                        "19",
-                        "20",
-                        "21",
-                        "22",
-                        "23",
-                        "24",
-                        "25",
-                        "26",
-                        "27",
-                      ],
-                      series: [
-                        [
-                          22,
-                          35,
-                          56,
-                          24,
-                          32,
-                          20,
-                          25,
-                          44,
-                          46,
-                          50,
-                          43,
-                          32,
-                          36,
-                          25,
-                        ],
-                      ],
-                    }}
-                    type="Bar"
-                    options={{
-                      seriesBarDistance: 10,
-                      axisX: {
-                        showGrid: false,
-                      },
-                      height: "245px",
-                    }}
-                    responsiveOptions={[
-                      [
-                        "screen and (max-width: 640px)",
-                        {
-                          seriesBarDistance: 5,
-                          axisX: {
-                            labelInterpolationFnc: function (value) {
-                              return value[0];
-                            },
-                          },
-                        },
-                      ],
-                    ]}
-                  />
-                </div>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                  More info
-                  <i class="far fa-arrow-alt-circle-right"></i>
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col md="12">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">Average Gym Attendance</Card.Title>
-                <p className="card-category">By time</p>
-              </Card.Header>
-              <Card.Body>
-                <div className="ct-chart" id="chartAttendance">
-                  <ChartistGraph
-                    data={{
-                      labels: [
-                        "6.00",
-                        "7.00",
-                        "8.00",
-                        "9.00",
-                        "10.00",
-                        "11.00",
-                        "12.00",
-                        "13.00",
-                        "14.00",
-                        "15.00",
-                        "16.00",
-                        "17.00",
-                        "18.00",
-                        "19.00",
-                        "20.00",
-                        "21.00",
-                      ],
-                      series: [
-                        [
+                          12,
+                          9,
                           10,
                           15,
-                          18,
-                          22,
-                          16,
-                          11,
-                          15,
-                          20,
-                          17,
-                          20,
-                          18,
-                          22,
-                          25,
-                          30,
-                          32,
-                          21,
+                          6,
+                          4,
+                          9,
+                          11
                         ],
                       ],
                     }}
-                    type="Line"
+                    type="Bar"
                     options={{
-                      low: 0,
-                      high: 40,
-                      showArea: false,
-                      height: "245px",
+                      seriesBarDistance: 10,
                       axisX: {
                         showGrid: false,
                       },
-                      lineSmooth: false,
-                      showLine: true,
-                      showPoint: true,
-                      fullWidth: true,
-                      chartPadding: {
-                        right: 50,
-                      },
+                      height: "245px",
                     }}
                     responsiveOptions={[
                       [
@@ -411,55 +407,67 @@ function Members() {
                   />
                 </div>
               </Card.Body>
+              <Card.Footer>
+                <hr></hr>
+                <div className="stats">
+                  More info
+                  <i class="far fa-arrow-alt-circle-right"></i>
+                </div>
+              </Card.Footer>
             </Card>
-          </Col> 
-        </Row>
-        <Row>
+          </Col>
           <Col md="6">
-            <Card>
+          <Card>
               <Card.Header>
-                <Card.Title as="h4">Average Gym Attendance</Card.Title>
-                <p className="card-category">By the day</p>
+                <Card.Title as="h4">New Members</Card.Title>
+                <p className="card-category">Last 7 Days</p>
               </Card.Header>
               <Card.Body>
-                <div className="ct-chart" id="chartAttendance">
+                <div className="ct-chart" id="chartActivity">
                   <ChartistGraph
                     data={{
                       labels: [
-                        "Mon",
-                        "Tue",
-                        "Wed",
-                        "Thur",
-                        "Fri",
-                        "Sat",
+                        "14",
+                        "15",
+                        "16",
+                        "17",
+                        "18",
+                        "19",
+                        "20",
+                        "21",
+                        "22",
+                        "23",
+                        "24",
+                        "25",
+                        "26",
+                        "27",
                       ],
                       series: [
                         [
-                          130,
-                          145,
-                          120,
-                          204,
-                          190,
-                          260,
+                          5,
+                          10,
+                          8,
+                          15,
+                          16,
+                          11,
+                          6,
+                          23,
+                          17,
+                          5,
+                          6,
+                          10,
+                          19,
+                          13,
                         ],
                       ],
                     }}
-                    type="Line"
+                    type="Bar"
                     options={{
-                      low: 0,
-                      high: 300,
-                      showArea: false,
-                      height: "245px",
+                      seriesBarDistance: 10,
                       axisX: {
                         showGrid: false,
                       },
-                      lineSmooth: false,
-                      showLine: true,
-                      showPoint: true,
-                      fullWidth: true,
-                      chartPadding: {
-                        right: 50,
-                      },
+                      height: "245px",
                     }}
                     responsiveOptions={[
                       [
@@ -477,12 +485,19 @@ function Members() {
                   />
                 </div>
               </Card.Body>
+              <Card.Footer>
+                <hr></hr>
+                <div className="stats">
+                  More info
+                  <i class="far fa-arrow-alt-circle-right"></i>
+                </div>
+              </Card.Footer>
             </Card>
-          </Col> 
+          </Col>
         </Row>
       </Container>
     </>
   );
 }
 
-export default Members;
+export default Dashboard;

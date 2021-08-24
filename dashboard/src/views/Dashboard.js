@@ -1,21 +1,121 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import ChartistGraph from "react-chartist";
 import {
-  Badge,
-  Button,
   Card,
-  Navbar,
-  Nav,
-  Table,
   Container,
   Row,
-  Col,
-  Form,
-  OverlayTrigger,
-  Tooltip,
+  Col
 } from "react-bootstrap";
 
+import { useState } from "react";
+import { useEffect } from "react";
+import Axios from "axios";
+import thousands from "../utils/thousands";
+import memberPercentage from "utils/stats";
+import graphGen from "utils/graph";
+
 function Dashboard() {
+
+  const [newOrderList, setNewOrderList] = useState([]);
+  const [revenue, setRevenue] = useState([]);
+  const [newMembers, setNewMembers] = useState([]);
+  const [totalMembers, setTotalMembers] = useState([]);
+  const [onlineTotalMembers, setOnlineTotalMembers] = useState([]);
+  const [physicalTotalMembers, setPhysicalTotalMembers] = useState([]);
+  const [newGraph, setNewGraph] = useState([]);
+  const [newRevenueGraph, setRevenueGraph] = useState([]);
+  const [salesGraph, setSalesGraph] = useState([]);
+
+  const perc = [];
+
+  const getNewOrders = () => {
+    Axios.get("http://localhost:3001/orders/new").then((response) => {
+      setNewOrderList(response.data);
+    });
+  };
+
+  const getRevenue = () => {
+    Axios.get("http://localhost:3001/orders/revenue").then((response) => {
+      setRevenue(response.data);
+    });
+  };
+
+  const getNewMembers = () => {
+    Axios.get("http://localhost:3001/members/new").then((response) => {
+      setNewMembers(response.data);
+    });
+  };
+
+  const getTotalMembers = () => {
+    Axios.get("http://localhost:3001/members/total").then((response) => {
+      setTotalMembers(response.data);
+    });
+  };
+
+  const getOnlineTotalMembers = () => {
+    Axios.get("http://localhost:3001/members/online/total").then((response) => {
+      setOnlineTotalMembers(response.data);
+    });
+  };
+
+  const getPhysicalTotalMembers = () => {
+    Axios.get("http://localhost:3001/members/physical/total").then((response) => {
+      setPhysicalTotalMembers(response.data);
+    });
+  };
+
+  const getNewGraph = () => {
+    Axios.get("http://localhost:3001/members/newGraph").then((response) => {
+      setNewGraph(response.data);
+    });
+  };
+
+  const getRevenueGraph = () => {
+    Axios.get("http://localhost:3001/shop/graph/revenue").then((response) => {
+      setRevenueGraph(response.data);
+    });
+  };
+
+  const getSalesGraph = () => {
+    Axios.get("http://localhost:3001/orders/graph/sales").then((response) => {
+      setSalesGraph(response.data);
+    });
+  };
+
+  useEffect(() => {
+    getNewOrders();
+    getRevenue();
+    getNewMembers();
+    getTotalMembers();
+    getOnlineTotalMembers();
+    getPhysicalTotalMembers();
+    getNewGraph();
+    getRevenueGraph();
+    getSalesGraph();
+  }, []);
+
+  function findTotalRevenue(){
+
+    let r = 0;
+    revenue.map(({price, quantity}) => r = r + price*quantity)
+    return r;
+  }  
+
+  const totalRevenue = thousands(findTotalRevenue());
+
+  onlineTotalMembers.map((val, key) => {
+    perc.push(val.count);
+  })
+
+  physicalTotalMembers.map((val, key) => {
+    perc.push(val.count);
+  })
+
+  const percentage = memberPercentage(perc[0], perc[1]);
+
+  console.log(salesGraph);
+
   return (
     <>
       <Container fluid>
@@ -32,7 +132,13 @@ function Dashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">New Orders</p>
-                      <Card.Title as="h4">15</Card.Title>
+
+                      {newOrderList.map((val, key) => {
+                        return (
+                          <Card.Title as="h4">{val.count}</Card.Title>
+                        );
+                        })}
+
                     </div>
                   </Col>
                 </Row>
@@ -58,7 +164,7 @@ function Dashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Revenue</p>
-                      <Card.Title as="h4">Rs 375,000</Card.Title>
+                      <Card.Title as="h4">Rs. {totalRevenue}</Card.Title>
                     </div>
                   </Col>
                 </Row>
@@ -84,7 +190,13 @@ function Dashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">New Members</p>
-                      <Card.Title as="h4">45</Card.Title>
+
+                      {newMembers.map((val, key) => {
+                        return (
+                          <Card.Title as="h4">{val.count}</Card.Title>
+                        );
+                        })}
+
                     </div>
                   </Col>
                 </Row>
@@ -110,7 +222,13 @@ function Dashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Total Members</p>
-                      <Card.Title as="h4">425</Card.Title>
+                      
+                      {totalMembers.map((val, key) => {
+                        return (
+                          <Card.Title as="h4">{val.count}</Card.Title>
+                        );
+                        })}
+
                     </div>
                   </Col>
                 </Row>
@@ -119,7 +237,7 @@ function Dashboard() {
                 <hr></hr>
                 <div className="stats">
                 <i className="far fa-arrow-alt-circle-right"></i>
-                  View More
+                <Link to="/admin/members" >View More</Link>
                 </div>
               </Card.Footer>
             </Card>
@@ -209,8 +327,8 @@ function Dashboard() {
                 >
                   <ChartistGraph
                     data={{
-                      labels: ["40%", "60%"],
-                      series: [40, 60],
+                      labels: [percentage, 100-percentage],
+                      series: [percentage, 100-percentage],
                     }}
                     type="Pie"
                   />
@@ -242,39 +360,9 @@ function Dashboard() {
                 <div className="ct-chart" id="chartActivity">
                   <ChartistGraph
                     data={{
-                      labels: [
-                        "14",
-                        "15",
-                        "16",
-                        "17",
-                        "18",
-                        "19",
-                        "20",
-                        "21",
-                        "22",
-                        "23",
-                        "24",
-                        "25",
-                        "26",
-                        "27",
-                      ],
+                      labels: graphGen(salesGraph)[1],
                       series: [
-                        [
-                          ,
-                          2,
-                          5,
-                          7,
-                          4,
-                          9,
-                          12,
-                          9,
-                          10,
-                          15,
-                          6,
-                          4,
-                          9,
-                          11
-                        ],
+                        graphGen(salesGraph)[0],
                       ],
                     }}
                     type="Bar"
@@ -320,39 +408,9 @@ function Dashboard() {
                 <div className="ct-chart" id="chartActivity">
                   <ChartistGraph
                     data={{
-                      labels: [
-                        "14",
-                        "15",
-                        "16",
-                        "17",
-                        "18",
-                        "19",
-                        "20",
-                        "21",
-                        "22",
-                        "23",
-                        "24",
-                        "25",
-                        "26",
-                        "27",
-                      ],
+                      labels: graphGen(newGraph)[1],
                       series: [
-                        [
-                          5,
-                          10,
-                          8,
-                          15,
-                          16,
-                          11,
-                          6,
-                          23,
-                          17,
-                          5,
-                          6,
-                          10,
-                          19,
-                          13,
-                        ],
+                        graphGen(newGraph)[0],
                       ],
                     }}
                     type="Bar"
