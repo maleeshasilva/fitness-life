@@ -8,7 +8,34 @@ import {
   Table,
 } from "react-bootstrap";
 
+import { useState } from "react";
+import { useEffect } from "react";
+import Axios from "axios";
+
 function Payments() {
+
+  const [payroll, setPayroll] = useState([]);
+
+  const getPayroll = () => {
+    Axios.get("http://localhost:3001/payments/payroll").then((response) => {
+      setPayroll(response.data);
+      console.log(response.data);
+    });
+  };
+
+  useEffect(() => {
+    getPayroll();
+  }, []);
+
+  function findTotalPayroll(){
+
+    let t = 0;
+    payroll.map(({salary, overtime, hours}) => t = t + salary + overtime*hours)
+    return t;
+  }  
+
+  const totalPayroll = findTotalPayroll();
+
   return (
     <>
       <Container fluid>
@@ -266,53 +293,26 @@ function Payments() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>P213</td>
-                      <td>William Penney</td>
-                      <td>39,000.00</td>
-                      <td>-</td>
-                      <td>39,000.00</td>
-                    </tr>
-                    <tr>
-                      <td>P223</td>
-                      <td>Minerva Hooper</td>
-                      <td>39,000.00</td>
-                      <td>9,000.00</td>
-                      <td>48,000.00</td>
-                    </tr>
-                    <tr>
-                      <td>P332</td>
-                      <td>Esther Farish</td>
-                      <td>28,000.00</td>
-                      <td>-</td>
-                      <td>28,000.00</td>
-                    </tr>
-                    <tr>
-                      <td>P023</td>
-                      <td>Gary Bauer</td>
-                      <td>28,000.00</td>
-                      <td>11,000.00</td>
-                      <td>39,000.00</td>
-                    </tr>
-                    <tr>
-                      <td>P151</td>
-                      <td>Darius Jackson</td>
-                      <td>39,000.00</td>
-                      <td>5,000.00</td>
-                      <td>44,000.00</td>
-                    </tr>
-                    <tr>
-                      <td>P136</td>
-                      <td>Larry Barden</td>
-                      <td>29,000.00</td>
-                      <td>-</td>
-                      <td>29,000.00</td>
-                    </tr>
+                    {payroll.map((val, key) => {
+
+                      const overtime = val.overtime * val.hours;
+                      const total = val.salary + overtime;
+
+                      return (
+                        <tr>
+                          <td>{val.trainerId}</td>
+                          <td>{val.firstName} {val.lastName}</td>
+                          <td>{val.salary}</td>
+                          <td>{overtime}</td>
+                          <td>{total}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
               </Card.Body>
               <Card.Footer>
-                <p className="pull-right">Total Payout Due: Rs. 227,000.00</p>
+                <p className="pull-right">Total Payout Due: Rs. {totalPayroll}</p>
               </Card.Footer>
             </Card>
           </Col>

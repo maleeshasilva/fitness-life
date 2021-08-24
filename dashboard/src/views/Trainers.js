@@ -8,7 +8,53 @@ import {
   Table,
 } from "react-bootstrap";
 
+import { useState } from "react";
+import { useEffect } from "react";
+import Axios from "axios";
+import timeCal from "../utils/time";
+
 function Trainers() {
+
+  const [pTrainerList, setPTrainerList] = useState([]);
+  const [oTrainerList, setOTrainerList] = useState([]);
+  const [onlineAttendance, setOnlineAttendance] = useState([]);
+  const [physicalAttendance, setPhysicalAttendance] = useState([]);
+
+const getPTrainers = () => {
+  Axios.get("http://localhost:3001/trainers/physical").then((response) => {
+    setPTrainerList(response.data);
+    console.log(response.data);
+  });
+};
+
+const getOTrainers = () => {
+  Axios.get("http://localhost:3001/trainers/online").then((response) => {
+    setOTrainerList(response.data);
+    console.log(response.data);
+  });
+};
+
+const getOnlineAttendance = () => {
+  Axios.get("http://localhost:3001/trainers/attendance-online").then((response) => {
+    setOnlineAttendance(response.data);
+    console.log(response.data);
+  });
+};
+
+const getPhysicalAttendance = () => {
+  Axios.get("http://localhost:3001/trainers/attendance-physical").then((response) => {
+    setPhysicalAttendance(response.data);
+    console.log(response.data);
+  });
+};
+
+useEffect(() => {
+  getPTrainers();
+  getOTrainers();
+  getOnlineAttendance();
+  getPhysicalAttendance();
+}, []);
+
   return (
     <>
       <Container fluid>
@@ -25,7 +71,13 @@ function Trainers() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Physical Trainers</p>
-                      <Card.Title as="h4">11</Card.Title>
+                      
+                        {physicalAttendance.map((val, key) => {
+                        return (
+                          <Card.Title as="h4">{val.count}</Card.Title>
+                        );
+                        })}
+
                     </div>
                   </Col>
                 </Row>
@@ -51,7 +103,13 @@ function Trainers() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Online Trainers</p>
-                      <Card.Title as="h4">15</Card.Title>
+
+                      {onlineAttendance.map((val, key) => {
+                        return (
+                          <Card.Title as="h4">{val.count}</Card.Title>
+                        );
+                        })}
+
                     </div>
                   </Col>
                 </Row>
@@ -139,48 +197,21 @@ function Trainers() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>P213</td>
-                      <td>William Penney</td>
-                      <td><i className="fas fa-circle text-danger"></i></td>
-                      <td>09.00 AM</td>
-                      <td>11</td>
-                    </tr>
-                    <tr>
-                      <td>P223</td>
-                      <td>Minerva Hooper</td>
-                      <td><i className="fas fa-circle text-success"></i></td>
-                      <td>Now</td>
-                      <td>9</td>
-                    </tr>
-                    <tr>
-                      <td>P332</td>
-                      <td>Esther Farish</td>
-                      <td><i className="fas fa-circle text-danger"></i></td>
-                      <td>10.30 AM</td>
-                      <td>13</td>
-                    </tr>
-                    <tr>
-                      <td>P023</td>
-                      <td>Gary Bauer</td>
-                      <td><i className="fas fa-circle text-danger"></i></td>
-                      <td>01.30 AM</td>
-                      <td>8</td>
-                    </tr>
-                    <tr>
-                      <td>P151</td>
-                      <td>Darius Jackson</td>
-                      <td><i className="fas fa-circle text-success"></i></td>
-                      <td>Now</td>
-                      <td>12</td>
-                    </tr>
-                    <tr>
-                      <td>P136</td>
-                      <td>Larry Barden</td>
-                      <td><i className="fas fa-circle text-danger"></i></td>
-                      <td>05.00 PM</td>
-                      <td>15</td>
-                    </tr>
+                    {pTrainerList.map((val, key) => {
+
+                      let availDate = val.date.split('T')[0];
+                      let nextAvailTime = timeCal(val.time);
+
+                      return (
+                        <tr>
+                          <td>{val.trainerId}</td>
+                          <td>{val.firstName} {val.lastName}</td>
+                          <td><i className="fas fa-circle text-danger"></i></td>
+                          <td>{availDate} - {nextAvailTime}</td>
+                          <td>{val.count}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
               </Card.Body>
@@ -208,48 +239,21 @@ function Trainers() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>V132</td>
-                      <td>Diana S. Lockwood</td>
-                      <td><i className="fas fa-circle text-success"></i></td>
-                      <td>Yes</td>
-                      <td>25</td>
-                    </tr>
-                    <tr>
-                      <td>V223</td>
-                      <td>Doreen Craft</td>
-                      <td><i className="fas fa-circle text-success"></i></td>
-                      <td>Yes</td>
-                      <td>23</td>
-                    </tr>
-                    <tr>
-                      <td>V139</td>
-                      <td>Megan Dubose</td>
-                      <td><i className="fas fa-circle text-success"></i></td>
-                      <td>No</td>
-                      <td>19</td>
-                    </tr>
-                    <tr>
-                      <td>V198</td>
-                      <td>Kevin Calfee</td>
-                      <td><i className="fas fa-circle text-danger"></i></td>
-                      <td>No</td>
-                      <td>24</td>
-                    </tr>
-                    <tr>
-                      <td>V251</td>
-                      <td>Edward King</td>
-                      <td><i className="fas fa-circle text-success"></i></td>
-                      <td>Yes</td>
-                      <td>19</td>
-                    </tr>
-                    <tr>
-                      <td>V116</td>
-                      <td>Michael Rhoads</td>
-                      <td><i className="fas fa-circle text-danger"></i></td>
-                      <td>No</td>
-                      <td>21</td>
-                    </tr>
+                    {oTrainerList.map((val, key) => {
+
+                    let availDate = val.date.split('T')[0];
+                    let nextAvailTime = timeCal(val.time);
+
+                    return (
+                      <tr>
+                        <td>{val.trainerId}</td>
+                        <td>{val.firstName} {val.lastName}</td>
+                        <td><i className="fas fa-circle text-danger"></i></td>
+                        <td>{availDate} - {nextAvailTime}</td>
+                        <td>{val.count}</td>
+                      </tr>
+                    );
+                    })}
                   </tbody>
                 </Table>
               </Card.Body>
