@@ -18,5 +18,5 @@ app.use("/trainers", TrainersRoutes);
 app.use("/members", MembersRoutes);
 
 app.listen(3001, () => {
-  console.log("Yey, your server is running on port 3001");
+  console.log("Your server is running on port 3001");
 });
