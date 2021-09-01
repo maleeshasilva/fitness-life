@@ -1,7 +1,7 @@
 const express = require("express");
 const Router = express.Router();
 var db = require('../config/connection');
-
+const { encrypt, decrypt } = require("../models/EncryptionHandler");
 
 Router.get("/new", (req, res) => {
     db.query("SELECT COUNT(*) AS 'count' FROM `member` WHERE createdAt >= DATE(NOW()) - INTERVAL 7 DAY", (err, result) => {
@@ -75,10 +75,12 @@ Router.post("/create", (req, res) => {
     const lName = req.body.lName;
     const email = req.body.email;
     const password = req.body.password;
+
+    const hashedPassword = encrypt(password);
   
     db.query(
       "INSERT INTO member (email, password, firstName, lastName) VALUES (?,?,?,?)",
-      [email, password, fName, lName],
+      [email, hashedPassword.password, fName, lName],
       (err, result) => {
         if (err) {
           console.log(err);
