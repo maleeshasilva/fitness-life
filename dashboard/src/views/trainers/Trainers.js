@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 // react-bootstrap components
 import {
   Card,
@@ -6,12 +8,13 @@ import {
   Row,
   Col,
   Table,
+  Button,
 } from "react-bootstrap";
 
 import { useState } from "react";
 import { useEffect } from "react";
 import Axios from "axios";
-import timeCal from "../utils/time";
+import timeCal from "../../utils/time";
 
 function Trainers() {
 
@@ -258,6 +261,28 @@ useEffect(() => {
                 </Table>
               </Card.Body>
             </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="px-1" md="12">
+            <Link to="/admin/alltrainers">  
+              <Button
+                className="btn-outline"
+                type="submit"
+                variant="primary"
+              >
+                All Trainers
+              </Button>
+            </Link>
+            <Link to="/admin/trainer/add-new"> 
+              <Button
+                className="btn-fill pull-right"
+                type="submit"
+                variant="primary"
+              >
+                Add New Trainer
+              </Button>
+            </Link>
           </Col>
         </Row>
       </Container>

@@ -1,12 +1,11 @@
 import Dashboard from "views/Dashboard.js";
-import UserProfile from "views/UserProfile.js";
-import TableList from "views/TableList.js";
-import Notifications from "views/Notifications.js";
 import Payments from "views/Payments.js";
 import Members from "views/Members.js";
-import Trainers from "views/Trainers.js";
-import Shop from "views/Shop.js";
+import Trainers from "views/trainers/Trainers.js";
+import Shop from "views/shop/Shop.js";
 import Settings from "views/Settings.js";
+import Inventory from "views/Inventory";
+import Workouts from "views/Workouts";
 
 
 const dashboardRoutes = [
@@ -39,6 +38,13 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
+    path: "/inventory",
+    name: "Inventory",
+    icon: "fas fa-warehouse",
+    component: Inventory,
+    layout: "/admin",
+  },
+  {
     path: "/payments",
     name: "Payments",
     icon: "fas fa-credit-card",
@@ -46,10 +52,10 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/user",
-    name: "User Profile",
-    icon: "fas fa-user",
-    component: UserProfile,
+    path: "/workouts",
+    name: "Workouts",
+    icon: "fas fa-dumbbell",
+    component: Workouts,
     layout: "/admin",
   },
   {

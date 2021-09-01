@@ -69,4 +69,25 @@ Router.get("/newGraph", (req, res) => {
     });
 });
 
+
+Router.post("/create", (req, res) => {
+    const fName = req.body.fName;
+    const lName = req.body.lName;
+    const email = req.body.email;
+    const password = req.body.password;
+  
+    db.query(
+      "INSERT INTO member (email, password, firstName, lastName) VALUES (?,?,?,?)",
+      [email, password, fName, lName],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send("Registered Successfully. Log in to continue");
+        }
+      }
+    );
+  });
+
+
 module.exports = Router;

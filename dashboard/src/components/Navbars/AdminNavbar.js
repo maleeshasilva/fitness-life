@@ -85,7 +85,6 @@ function Header() {
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#"
-                  onClick={(e) => e.preventDefault()}
                 >
                   Payroll Pending
                 </Dropdown.Item>
@@ -96,8 +95,7 @@ function Header() {
           <Nav.Item>
               <Nav.Link
                 className="m-0"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                href="/admin/shop"
               >
                 <span className="no-icon">Manage Orders</span>
               </Nav.Link>
@@ -116,8 +114,7 @@ function Header() {
               </Dropdown.Toggle>
               <Dropdown.Menu aria-labelledby="navbarDropdownMenuLink">
                 <Dropdown.Item
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
+                  href="/admin/settings"
                 >
                   Settings
                 </Dropdown.Item>
