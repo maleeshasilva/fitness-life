@@ -1,5 +1,6 @@
 import React from "react";
-// react-bootstrap components
+import { Link } from 'react-router-dom';
+
 import {
   Card,
   Container,
@@ -56,32 +57,6 @@ function Shop() {
                 <Row>
                   <Col xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="fas fa-store"></i>
-                    </div>
-                  </Col>
-                  <Col xs="7">
-                    <div className="numbers">
-                      <p className="card-category">New Orders</p>
-                      <Card.Title as="h4">15</Card.Title>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-              <Card.Footer>
-                <hr></hr>
-                <div className="stats">
-                <i className="far fa-calendar-alt mr-1"></i>
-                  Today
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col lg="3" sm="6">
-            <Card className="card-stats">
-              <Card.Body>
-                <Row>
-                  <Col xs="5">
-                    <div className="icon-big text-center icon-warning">
                       <i className="fas fa-hand-holding-usd"></i>
                     </div>
                   </Col>
@@ -98,6 +73,32 @@ function Shop() {
                 <div className="stats">
                   <i className="far fa-calendar-alt mr-1"></i>
                   Last 30 days
+                </div>
+              </Card.Footer>
+            </Card>
+          </Col>
+          <Col lg="3" sm="6">
+            <Card className="card-stats">
+              <Card.Body>
+                <Row>
+                  <Col xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="fas fa-store"></i>
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      <p className="card-category">New Orders</p>
+                      <Card.Title as="h4">15</Card.Title>
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+              <Card.Footer>
+                <hr></hr>
+                <div className="stats">
+                <i className="far fa-calendar-alt mr-1"></i>
+                  Today
                 </div>
               </Card.Footer>
             </Card>
@@ -139,7 +140,7 @@ function Shop() {
                   </Col>
                   <Col xs="7">
                     <div className="numbers">
-                      <p className="card-category">Pending Delivery</p>
+                      <p className="card-category">Out of Stock Products</p>
                       <Card.Title as="h4">25</Card.Title>
                     </div>
                   </Col>
@@ -149,7 +150,7 @@ function Shop() {
                 <hr></hr>
                 <div className="stats">
                 <i className="far fa-arrow-alt-circle-right"></i>
-                  View More
+                <Link to="/admin/inventory" >Manage Inventory</Link>
                 </div>
               </Card.Footer>
             </Card>
@@ -222,7 +223,6 @@ function Shop() {
                     })}
                   </tbody>
                 </Table>
-                <Button>View More</Button>
               </Card.Body>
             </Card>
           </Col>
@@ -258,7 +258,9 @@ function Shop() {
                     })}
                   </tbody>
                 </Table>
-                <Button>View More</Button>
+                <Link to="/admin/orders/completed">
+                  <Button>View More</Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>

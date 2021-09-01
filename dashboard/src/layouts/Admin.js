@@ -6,6 +6,13 @@ import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
 
 import routes from "routes.js";
+import Product from "views/shop/Product";
+import AllTrainers from "views/trainers/AllTrainers";
+import Trainer from "views/trainers/Trainer";
+import Workout from "views/Workout";
+import TrainerAddNew from "views/trainers/AddNew";
+import CompleteOrders from "views/shop/CompleteOrders";
+import ProductAddNew from "views/shop/AddNew";
 
 function Admin() {
   const location = useLocation();
@@ -45,7 +52,16 @@ function Admin() {
         <div className="main-panel" ref={mainPanel}>
           <AdminNavbar />
           <div className="content">
-            <Switch>{getRoutes(routes)}</Switch>
+            <Switch>
+              {getRoutes(routes)}
+              <Route path="/admin/product" exact component={Product}></Route>
+              <Route path="/admin/product/add-new" exact component={ProductAddNew}></Route>
+              <Route path="/admin/alltrainers" exact component={AllTrainers}></Route>
+              <Route path="/admin/trainer" exact component={Trainer}></Route>
+              <Route path="/admin/trainer/add-new" exact component={TrainerAddNew}></Route>
+              <Route path="/admin/workout" exact component={Workout}></Route>
+              <Route path="/admin/orders/completed" exact component={CompleteOrders}></Route>
+            </Switch>
           </div>
           <Footer />
         </div>

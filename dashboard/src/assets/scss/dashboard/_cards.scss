@@ -1,7 +1,11 @@
 .card{
-    border-radius: $border-radius-base;
+    border-radius: $border-radius-large;
     background-color: $white-color;
     margin-bottom: 30px;
+
+    -webkit-box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.05);
+    -moz-box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.05);
+    box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.05);
 
     .card-image{
         width: 100%;
@@ -55,7 +59,7 @@
     label{
         font-size: $font-size-base;
         font-weight: $font-weight-normal;
-        color: $dark-gray;
+        color: $black-color;
         margin-bottom: 0px;
 
         i{
@@ -64,9 +68,8 @@
     }
 
     label{
-        font-size: $font-size-small;
+        font-size: 15px;
         margin-bottom: 5px;
-        text-transform: uppercase;
     }
 
     .card-title{
@@ -74,6 +77,12 @@
         color: $black-color;
         font-weight: $font-weight-light;
     }
+
+    .h5{
+        font-size: 18px;
+        font-weight: $font-weight-bold;
+    }
+
     .avatar{
         width: 30px;
         height: 30px;

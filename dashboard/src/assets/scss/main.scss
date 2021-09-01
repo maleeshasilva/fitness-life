@@ -95,3 +95,60 @@ input[type=checkbox]{
 .table-striped tbody tr:nth-of-type(odd){
     background-color: rgba(33, 150, 243, 0.1);
 }
+
+.main-outer-panel{
+    background: #f7f5fb;
+    position: relative;
+    float: right;
+    width: 100%;
+    min-height: 100%;
+}
+
+.text-center{
+    text-align: center;
+}
+
+
+// Login
+.login-form{
+    margin: auto;
+    max-width: 300px;
+}
+
+.login-btn{
+    display: block;
+    margin: auto;
+    min-width: 300px;
+}
+
+.login-card{
+    margin: 80px;
+    padding: 30px;
+}
+
+// Inventory
+
+.product-image{
+    width: 60px;
+}
+
+.input-group-text{
+    margin: 5px;
+}
+
+.radio-label{
+    margin: 10px;
+    margin-left: 5px;
+}
+
+textarea.form-control{
+    min-height: 10em;
+}
+
+.form-group{
+    margin: 10px auto;
+}
+
+::placeholder{
+    color: $medium-dark-gray;
+}
