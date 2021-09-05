@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 class Footer extends Component {
   render() {
@@ -9,7 +10,7 @@ class Footer extends Component {
           <nav>
             <p className="copyright text-center">
               © {new Date().getFullYear()}{" "}
-              <a href="#">Fitness Life</a> - Fitness Center
+              <Link to="/admin/dashboard">Fitness Life</Link> - Fitness Center
             </p>
           </nav>
         </Container>

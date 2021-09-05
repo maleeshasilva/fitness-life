@@ -13,6 +13,8 @@ import Workout from "views/Workout";
 import TrainerAddNew from "views/trainers/AddNew";
 import CompleteOrders from "views/shop/CompleteOrders";
 import ProductAddNew from "views/shop/AddNew";
+import Program from "views/Program";
+import FileUpload from "views/upload/FileUpload";
 
 function Admin() {
   const location = useLocation();
@@ -54,13 +56,15 @@ function Admin() {
           <div className="content">
             <Switch>
               {getRoutes(routes)}
-              <Route path="/admin/product" exact component={Product}></Route>
-              <Route path="/admin/product/add-new" exact component={ProductAddNew}></Route>
+              <Route path="/admin/product/:id" exact component={Product}></Route>
+              <Route path="/admin/add-product" exact component={ProductAddNew}></Route>
               <Route path="/admin/alltrainers" exact component={AllTrainers}></Route>
               <Route path="/admin/trainer" exact component={Trainer}></Route>
               <Route path="/admin/trainer/add-new" exact component={TrainerAddNew}></Route>
               <Route path="/admin/workout" exact component={Workout}></Route>
               <Route path="/admin/orders/completed" exact component={CompleteOrders}></Route>
+              <Route path="/admin/program" exact component={Program}></Route>
+              <Route path="/admin/upload" exact component={FileUpload}></Route>
             </Switch>
           </div>
           <Footer />

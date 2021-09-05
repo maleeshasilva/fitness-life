@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { useLocation, NavLink } from "react-router-dom";
+import { useLocation, NavLink, Link } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
 function Sidebar({ color, image, routes }) {
@@ -11,20 +11,14 @@ function Sidebar({ color, image, routes }) {
     <div className="sidebar" data-image={image} data-color={color}>
       <div className="sidebar-wrapper">
         <div className="logo d-flex align-items-center justify-content-start">
-          <a
-            href="#"
-            className="simple-text logo-mini mx-1"
-          >
+          <Link to ="/admin/dashboard">
             <div className="logo-img">
               <img
                 src={require("assets/img/logo.png").default}
                 alt="..."
               />
             </div>
-          </a>
-          <a className="simple-text" href="#">
-            Fitness Life
-          </a>
+          </Link>
         </div>
         <Nav>
           {routes.map((prop, key) => {

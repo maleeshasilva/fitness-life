@@ -59,6 +59,10 @@ body > .navbar-collapse{
             font-weight: $font-weight-normal;
             line-height: 30px;
         }
+
+        a{
+            text-decoration: none;
+        }
     }
 
     .logo-tim{
@@ -169,7 +173,7 @@ body > .navbar-collapse{
     }
 
     .logo{
-        padding: $navbar-padding-a;
+        padding: 0 15px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
         p{
@@ -439,8 +443,7 @@ body > .navbar-collapse{
         @include icon-gradient(#282828, rgba(#111,.7));
     }
     .logo-img img {
-      max-width: 40px;
-      max-height: 40px;
+      max-width: 180px;
     }
 }
 
