@@ -152,3 +152,14 @@ textarea.form-control{
 ::placeholder{
     color: $medium-dark-gray;
 }
+
+.thumbnail{
+    max-width: 80px;
+    max-height: 80px;
+    overflow: hidden;
+    display: block;
+
+    img{
+        max-width: 80px;
+    }
+}

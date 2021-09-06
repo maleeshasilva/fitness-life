@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 02, 2021 at 04:53 AM
+-- Generation Time: Sep 06, 2021 at 09:55 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -221,21 +221,30 @@ CREATE TABLE `product` (
   `productID` int(4) NOT NULL,
   `productName` varchar(255) NOT NULL,
   `price` double NOT NULL,
-  `quantity` int(3) NOT NULL
+  `quantity` int(3) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `imageUrl` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`productID`, `productName`, `price`, `quantity`) VALUES
-(1, 'Test Product', 100, 10),
-(2, 'Rubber Hex Dumbbells', 2000, 10),
-(3, 'Cast Iron Kettlebells', 2600, 10),
-(4, 'Standard Hex Bar', 14000, 10),
-(5, 'Wall Balls', 9000, 10),
-(6, 'Stability Ball', 2400, 10),
-(7, 'Power Bands', 900, 10);
+INSERT INTO `product` (`productID`, `productName`, `price`, `quantity`, `description`, `imageUrl`) VALUES
+(1, 'RESISTANCE BAND 18LBS (BLUE)', 1590, 10, 'RESISTANCE BAND 18LBS (BLUE)', '/uploads/products/vau6yResistance-bands.webp'),
+(2, 'DUMBELL BAR 14″T', 1990, 10, 'DUMBELL BAR 14″T', '/uploads/products/5v5ju121t.jpg'),
+(3, 'TRICEPS PULL DOWN ROPE 1″X28″', 1900, 10, 'TRICEPS PULL DOWN ROPE 1″X28″', '/uploads/products/qpmiwpb15.webp'),
+(4, '55CM GYM BALL', 1950, 11, '55CM GYM BALL', '/uploads/products/r97lxgymball.webp'),
+(5, '4KG DUMBELLS', 2200, 10, '4KG DUMBELLS', '/uploads/products/zok0ddum.webp'),
+(6, 'KETTLE BELL 04 KG (1 PC) ( 600.00 LKR PER KG )', 2400, 10, 'KETTLE BELL 04 KG (1 PC) ( 600.00 LKR PER KG )', '/uploads/products/wrqi0kettle_bell_1_1_1.webp'),
+(7, 'PROFORM BENDABLE MASSAGE STICK', 2500, 10, 'PROFORM BENDABLE MASSAGE STICK', '/uploads/products/oq2o6proform-bendable-massage-stick-ICON-PFIBMST15.webp'),
+(8, 'STRETCH & SCULPT FLAT BANDS', 2500, 2, 'STRETCH & SCULPT FLAT BANDS', '/uploads/products/rkmiupfm-ea405_1.webp'),
+(24, 'AB ISOLATOR', 2550, 2, 'AB ISOLATOR', '/uploads/products/oquciAB-Isolator-5.webp'),
+(25, 'FITNESS GEAR EXERCISE WHEEL', 3190, 2, 'FITNESS GEAR EXERCISE WHEEL', '/uploads/products/40r3cWeChat-Image_20210604094843-1.webp'),
+(26, 'WRIST WRAP GLOVE-LARGE', 4500, 0, 'WRIST WRAP GLOVE-LARGE', '/uploads/products/jbgj6Wrist-wrap-glove-Large-.webp'),
+(27, 'BLUETOOTH BMI SCALE', 5900, 0, 'BLUETOOTH BMI SCALE', '/uploads/products/hqxpymmexport1537497946042-1.webp'),
+(28, 'TRAINING ROPE', 22900, 0, 'TRAINING ROPE', '/uploads/products/speisTraining-Rope-2.webp'),
+(29, 'RUBBER PIO DUMBBELL (PAIR)', 18550, 0, 'RUBBER PIO DUMBBELL (PAIR)', '/uploads/products/rscwcdum (1).webp');
 
 -- --------------------------------------------------------
 
@@ -435,7 +444,7 @@ ALTER TABLE `workout`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `productID` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `productID` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `program`

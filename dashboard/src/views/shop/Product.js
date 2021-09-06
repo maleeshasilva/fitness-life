@@ -88,6 +88,7 @@ function Product() {
     }
   };
 
+  // Get Product Information
   const getInfo = () => {
     Axios.get(`http://localhost:3001/product/get?id=${id}`).then((response) => {
       setInfo(response.data);
@@ -105,10 +106,10 @@ function Product() {
     });
   };
 
-  // Add Product Function
 
+  // Update Product Information
   const updateProduct = () => {
-    
+
       try {
 
         Axios.post("http://localhost:3001/product/update", {
@@ -132,6 +133,29 @@ function Product() {
     
   };
 
+
+  // Update Product Information
+  const deleteProduct = () => {
+
+    try {
+
+      Axios.post("http://localhost:3001/product/delete", {
+        pid: id,
+      })
+
+      setAddMessage({msg: 'Product Delated', type: 'primary'});
+
+    } catch (err) {
+      if (err.response.status === 500) {
+        setAddMessage({msg: 'There was a problem with the server', type: 'danger'});
+      } else {
+        setAddMessage({msg: err.response.data.msg, type: 'danger'});
+      }
+    }
+    
+  };
+
+
   useEffect(() => {
     getInfo();
     getDir();
@@ -144,9 +168,7 @@ function Product() {
       <Container fluid>
         <Row>
           <Col md="12">
-            <Alert variant="primary">
-              Changes Saved Successfully!
-            </Alert>
+            {addMessage ? <Message msg={addMessage.msg} type={addMessage.type} /> : null}
           </Col>
         </Row>
         <Row>
@@ -285,6 +307,11 @@ function Product() {
                 </Form>
               </Card.Body>
             </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md="12">
+            {addMessage ? <Message msg={addMessage.msg} type={addMessage.type} /> : null}
           </Col>
         </Row>
       </Container>
