@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { useEffect } from "react";
+import Axios from "axios";
 
 import {
   Card,
@@ -8,10 +11,31 @@ import {
   Col,
   Table,
   Button,
+  Image,
 } from "react-bootstrap";
 
 function Inventory() {
 
+  const [productList, setProductList] = useState([]);
+  const [outStock, setOutStock] = useState([]);
+
+  const getProductList = () => {
+    Axios.get("http://localhost:3001/product/getlist").then((response) => {
+      setProductList(response.data);
+    });
+  };
+
+  const getOutStock = () => {
+    Axios.get("http://localhost:3001/product/out-stock").then((response) => {
+      setOutStock(response.data);
+    });
+  };
+
+  useEffect(() => {
+    getProductList();
+    getOutStock();
+  }, []);
+  
   return (
     <>
       <Container fluid>
@@ -38,10 +62,9 @@ function Inventory() {
           <Col lg="3" sm="6">
           </Col>
           <Col lg="6" sm="6">
-            <Link to="/admin/product/add-new">
+            <Link to="/admin/add-product">
               <Button
                 className="btn-fill pull-right"
-                type="submit"
                 variant="primary"
               >
                 Add New Product
@@ -61,28 +84,25 @@ function Inventory() {
                 <Table className="table-hover">
                   <thead>
                     <tr>
-                      <th className="border-0"><i class="fas fa-image"></i></th>
+                      <th className="border-0"><i class="fas fa-image"></i> Image</th>
                       <th className="border-0">Name</th>
                       <th className="border-0">ID</th>
                       <th className="border-0">Stock #</th>
-                      <th className="border-0">Price</th>
+                      <th className="border-0">Price (Rs)</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td><img src={require("assets/img/img.jpg").default} className="product-image"/></td>
-                      <td>RESISTANCE BAND 5LBS</td>
-                      <td>P002</td>
-                      <td>10</td>
-                      <td>990</td>
-                    </tr>
-                    <tr>
-                      <td><img src={require("assets/img/img.jpg").default} className="product-image"/></td>
-                      <td>RESISTANCE BAND 5LBS</td>
-                      <td>P002</td>
-                      <td>10</td>
-                      <td>990</td>
-                    </tr>
+                    {productList.map((val, key) => {
+                        return (
+                          <tr>
+                            <td className="thumbnail"><Image src={val.imageUrl} /></td>
+                            <td><Link to={'/admin/product/' + val.productID}>{val.productName}</Link></td>
+                            <td>{val.productID}</td>
+                            <td>{val.quantity}</td>
+                            <td>{val.price}</td>
+                          </tr>
+                        );
+                    })}
                   </tbody>
                 </Table>
               </Card.Body>
@@ -96,31 +116,28 @@ function Inventory() {
                 <Card.Title as="h4">Out of Stock</Card.Title>
               </Card.Header>
               <Card.Body className="table-full-width table-responsive px-0">
-                <Table className="table-hover">
+              <Table className="table-hover">
                   <thead>
                     <tr>
-                      <th className="border-0"><i class="fas fa-image"></i></th>
+                      <th className="border-0"><i class="fas fa-image"></i> Image</th>
                       <th className="border-0">Name</th>
                       <th className="border-0">ID</th>
                       <th className="border-0">Stock #</th>
-                      <th className="border-0">Price</th>
+                      <th className="border-0">Price (Rs)</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td><img src={require("assets/img/img.jpg").default} className="product-image"/></td>
-                      <td>RESISTANCE BAND 5LBS</td>
-                      <td>P002</td>
-                      <td>10</td>
-                      <td>990</td>
-                    </tr>
-                    <tr>
-                      <td><img src={require("assets/img/img.jpg").default} className="product-image"/></td>
-                      <td>RESISTANCE BAND 5LBS</td>
-                      <td>P002</td>
-                      <td>10</td>
-                      <td>990</td>
-                    </tr>
+                    {outStock.map((val, key) => {
+                        return (
+                          <tr>
+                            <td className="thumbnail"><Image src={val.imageUrl} /></td>
+                            <td><Link to={'/admin/product/' + val.productID}>{val.productName}</Link></td>
+                            <td>{val.productID}</td>
+                            <td>{val.quantity}</td>
+                            <td>{val.price}</td>
+                          </tr>
+                        );
+                    })}
                   </tbody>
                 </Table>
               </Card.Body>

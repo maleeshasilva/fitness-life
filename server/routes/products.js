@@ -56,4 +56,28 @@ Router.get("/get", (req, res) => {
   });
 });
 
+Router.get("/getlist", (req, res) => {
+  var queryParams = req.query;
+  db.query("SELECT * FROM product", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+      console.log(result);
+    }
+  });
+});
+
+Router.get("/out-stock", (req, res) => {
+  var queryParams = req.query;
+  db.query("SELECT * FROM product WHERE quantity = 0", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+      console.log(result);
+    }
+  });
+});
+
 module.exports = Router;
