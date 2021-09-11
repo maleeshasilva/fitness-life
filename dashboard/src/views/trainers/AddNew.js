@@ -1,5 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import Axios from "axios";
+
+import Message from '../upload/Message';
+import passwordValidator from '../../utils/passwordValidator';
 
 // react-bootstrap components
 import {
@@ -15,14 +19,67 @@ import {
 
 function TrainerAddNew() {
 
+    // Form Data
+    const [fName, setFName] = useState("");
+    const [lName, setLName] = useState("");
+    const [email, setEmail] = useState("");
+    const [telephone, setTelephone] = useState("");
+    const [password, setPassword] = useState("");
+    const [rePassword, setRePassword] = useState("");
+    const [salary, setSalary] = useState("");
+
+    const [addMessage, setAddMessage] = useState({});
+
+    let passwordErr = passwordValidator(password, rePassword);
+
+
+    // Add Product Function
+
+  const addTrainer = () => {
+
+    if(passwordErr == 0){
+      try {
+
+        Axios.post("http://localhost:3001/trainers/add", {
+          fName: fName,
+          lName: lName,
+          email: email,
+          telephone: telephone,
+          password: password,
+          salary: salary,
+        }).then((response => {
+          setAddMessage({msg: response.data.message, type: response.data.type});
+          console.log(response.data);
+        }))
+  
+      } catch (err) {
+        if (err.response.status === 500) {
+          setAddMessage({msg: 'There was a problem with the server', type: 'danger'});
+        } else if (err.response.status === 400) {
+          setAddMessage({msg: 'Email Already Exists', type: 'danger'});
+        } else {
+          setAddMessage({msg: err.response.data.msg, type: 'danger'});
+        }
+      }
+
+    } else if (passwordErr == 1){
+      setAddMessage({msg: 'Password length should be more than 6 characters', type: 'danger'});
+    } else {
+      setAddMessage({msg: 'Passwords do not match', type: 'danger'});
+    }
+
+      
+    
+  };
+
+
+
   return (
     <>
       <Container fluid>
         <Row>
           <Col md="12">
-            <Alert variant="primary">
-              Trainer Added Successfully!
-            </Alert>
+            {addMessage ? <Message msg={addMessage.msg} type={addMessage.type} /> : null}
           </Col>
         </Row>
         <Row>
@@ -38,9 +95,9 @@ function TrainerAddNew() {
                       <Form.Group>
                         <label>First Name</label>
                         <Form.Control
-                          defaultValue="First Name"
                           placeholder="First Name"
                           type="text"
+                          onChange={(event) => { setFName(event.target.value); }}
                         ></Form.Control>
                       </Form.Group>
                     </Col>
@@ -48,50 +105,63 @@ function TrainerAddNew() {
                       <Form.Group>
                         <label>Last Name</label>
                         <Form.Control
-                          defaultValue="Last Name"
                           placeholder="Last Name"
                           type="text"
+                          onChange={(event) => { setLName(event.target.value); }}
                         ></Form.Control>
                       </Form.Group>
                     </Col>
-                    </Row>
-                    <Row>
+                  </Row>
+                  <Row>
                       <Col className="pr-1" md="6">
                         <Form.Group>
                           <label>Email</label>
                           <Form.Control
-                            defaultValue="Email"
                             placeholder="Email"
                             type="text"
+                            onChange={(event) => { setEmail(event.target.value); }}
                           ></Form.Control>
                         </Form.Group>
+                        
+                      </Col>
+                      <Col className="pr-1" md="6">
                         <Form.Group>
-                        <label>Select Trainer Type</label>
-                          <InputGroup>
-                            <InputGroup.Radio name="Group1" aria-label="1" id="physical" checked/>
-                            <label for="physical" className="radio-label">Physical</label>
-                          </InputGroup>
-                          <InputGroup>
-                            <InputGroup.Radio name="Group1" aria-label="2" id="online" />
-                            <label for="online" className="radio-label">Online</label>
-                          </InputGroup>
+                          <label>Telephone</label>
+                          <Form.Control
+                            placeholder="Telephone"
+                            type="text"
+                            onChange={(event) => { setTelephone(event.target.value); }}
+                          ></Form.Control>
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                    <Row>
+                    <Col className="pr-1" md="6">
+                        <Form.Group>
+                          <label>Password</label>
+                          <Form.Control
+                            type="password"
+                            onChange={(event) => { setPassword(event.target.value); }}
+                          ></Form.Control>
                         </Form.Group>
                       </Col>
                       <Col className="pr-1" md="6">
                         <Form.Group>
                           <label>Salary</label>
                           <Form.Control
-                            defaultValue="0.00"
-                            placeholder="0.00"
                             type="number"
+                            onChange={(event) => { setSalary(event.target.value); }}
                           ></Form.Control>
                         </Form.Group>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className="pr-1" md="6">
                         <Form.Group>
-                          <label>Telephone</label>
+                          <label>Re Enter Password</label>
                           <Form.Control
-                            defaultValue="Telephone"
-                            placeholder="Telephone"
-                            type="text"
+                            type="password"
+                            onChange={(event) => { setRePassword(event.target.value); }}
                           ></Form.Control>
                         </Form.Group>
                       </Col>
@@ -100,10 +170,10 @@ function TrainerAddNew() {
                      <Col className="pr-1" md="12">
                         <Button
                           className="btn-fill pull-right"
-                          type="submit"
                           variant="primary"
+                          onClick={addTrainer}
                         >
-                          Save Changes
+                          Add Trainer
                         </Button>
                      </Col>
                     </Row>              
@@ -111,6 +181,11 @@ function TrainerAddNew() {
                 </Form>
               </Card.Body>
             </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md="12">
+            {addMessage ? <Message msg={addMessage.msg} type={addMessage.type} /> : null}
           </Col>
         </Row>
       </Container>

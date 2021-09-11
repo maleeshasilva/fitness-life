@@ -60,7 +60,7 @@ function Admin() {
               <Route path="/admin/add-product" exact component={ProductAddNew}></Route>
               <Route path="/admin/alltrainers" exact component={AllTrainers}></Route>
               <Route path="/admin/trainer" exact component={Trainer}></Route>
-              <Route path="/admin/trainer/add-new" exact component={TrainerAddNew}></Route>
+              <Route path="/admin/add-trainer" exact component={TrainerAddNew}></Route>
               <Route path="/admin/workout" exact component={Workout}></Route>
               <Route path="/admin/orders/completed" exact component={CompleteOrders}></Route>
               <Route path="/admin/program" exact component={Program}></Route>

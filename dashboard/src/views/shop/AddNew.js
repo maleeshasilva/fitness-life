@@ -13,7 +13,6 @@ import {
   Row,
   Col,
   Image,
-  Spinner,
 } from "react-bootstrap";
 
 function ProductAddNew() {
